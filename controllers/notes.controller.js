@@ -1,19 +1,16 @@
 'use strict';
 
-const notesModel = require('../models/notes.model'); // TODO how change model src? some cfg? Interface needed.
+const notesService = require('../services/notes.service');
 
 class NotesController {
-    /**
-     * Good idea accept a model instance?
-     * but context is lost in
-     */
-    constructor(model) {
-        this.model = model;
+
+    constructor(modelService) {
+        this.service = modelService;
     }
 
     async createNote(req, res, next) {
         const itemForCreate = req.body; // need validate
-        const itemCreated = await this.model.createItem(itemForCreate);
+        const itemCreated = await this.service.createItem(itemForCreate);
         // compare two items? What for?
         req.params.id = itemCreated.id;
         await this.getNoteById(req, res, next, 201);
@@ -21,12 +18,12 @@ class NotesController {
 
     async getAllNotes(req, res, next) {
         //res.send(await notesModel.getAllData()); 'this' lost context when fn passing into router
-        res.status(200).json(await this.model.getAllItems());
+        res.status(200).json(await this.service.getAllItems());
     }
 
     async getNoteById(req, res, next, statusSuccess = 200) {
         const id = +req.params.id;
-        const item = await this.model.getItemById(id)
+        const item = await this.service.getItemById(id)
         if (!item) {
             return res.status(204).end();
         }
@@ -37,7 +34,7 @@ class NotesController {
         const id = +req.params.id;
         let resStatus = 200;
         try {
-            const deletedNotes = await this.model.deleteItemById(id);
+            const deletedNotes = await this.service.deleteItemById(id);
             if (deletedNotes instanceof Error) {
                 resStatus = 204;
             }
@@ -49,4 +46,4 @@ class NotesController {
 
 }
 
-module.exports = new NotesController(notesModel);
+module.exports = new NotesController(notesService);
