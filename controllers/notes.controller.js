@@ -16,22 +16,21 @@ class NotesController {
         const itemCreated = await this.model.createItem(itemForCreate);
         // compare two items? What for?
         req.params.id = itemCreated.id;
-        await this.getNoteById(req, res, next)
+        await this.getNoteById(req, res, next, 201);
     }
-
 
     async getAllNotes(req, res, next) {
         //res.send(await notesModel.getAllData()); 'this' lost context when fn passing into router
         res.status(200).json(await this.model.getAllItems());
     }
 
-    async getNoteById(req, res, next) {
+    async getNoteById(req, res, next, statusSuccess = 200) {
         const id = +req.params.id;
         const item = await this.model.getItemById(id)
         if (!item) {
             return res.status(204).end();
         }
-        res.status(200).json(item);
+        res.status(statusSuccess).json(item);
     }
 
     async deleteNoteById(req, res, next) {
