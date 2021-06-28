@@ -1,14 +1,14 @@
 'use strict';
 
-const notesModel = require('../models/notes.model'); // TODO how change model src? some cfg? Interface needed.
+const notesService = require('../services/notes.service');
 
 class NotesController {
     /**
      * Good idea accept a model instance?
      * but context is lost in
      */
-    constructor(model) {
-        this.model = model;
+    constructor(modelService) {
+        this.model = modelService;
     }
 
     async createNote(req, res, next) {
@@ -49,4 +49,4 @@ class NotesController {
 
 }
 
-module.exports = new NotesController(notesModel);
+module.exports = new NotesController(notesService);
