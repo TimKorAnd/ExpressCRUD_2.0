@@ -13,6 +13,8 @@ router.post('/create', notesController.createNote.bind(notesController));
 router.get('/', notesController.getAllNotes.bind(notesController));
 router.get('/:id', notesController.getNoteById.bind(notesController));
 
+router.patch('/:id', notesController.updateNoteById.bind(notesController));
+
 router.delete('/delete/:id', notesController.deleteNoteById.bind(notesController));
 
 module.exports = router;
