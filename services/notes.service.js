@@ -8,12 +8,22 @@ class NotesService {
     }
 // TODO validation fields & values necessary
     async createItem(item) {
-        await this.items.push(item);
-        return item;
+        try {
+            await this.items.push(item);
+            return item;
+        } catch (err) {
+            // TODO log it in controller
+            throw 'Error DB connection: cant write data';
+        }
     }
 
     async getAllItems() {
-        return await this.items; // await for db. try catch for db
+        try {
+            return await this.items; // await for db. try catch for db
+        } catch (err) {
+            // TODO log it .. and rethrow to the controller
+            throw `Error DB connection: cant read data.\n ${err.message} `;
+        }
     }
 
     async getItemById(id) {
@@ -24,26 +34,31 @@ class NotesService {
             }
             return item;
         } catch (err) {
-            // TODO log it
-            throw 'Error DB connection';
+            // TODO log it .. and rethrow to the controller
+            throw `Error DB connection: cant read data.\n ${err.message} `;
         }
     }
 // todo validation & forbide patch _id_ or some else protected fields
     async updateItemById(id, patchSource) {
-        const itemTarget = await this.getItemById(id);
-        if (itemTarget instanceof Error) {
-            return itemTarget;
-        }
-        const errors = [];
-        Object.keys(patchSource).forEach((patchKey) => {
-            if (!itemTarget.hasOwnProperty(patchKey)) {
-                 errors.push(new Error(`${patchKey}`));
+        try {
+            const itemTarget = await this.getItemById(id);
+            if (itemTarget instanceof Error) {
+                return itemTarget;
             }
-        })
-        if (errors.length > 0) {
-            return errors;
+            const errors = [];
+            Object.keys(patchSource).forEach((patchKey) => {
+                if (!itemTarget.hasOwnProperty(patchKey)) {
+                    errors.push(new Error(`${patchKey}`));
+                }
+            })
+            if (errors.length > 0) {
+                return errors;
+            }
+            return Object.assign(itemTarget, patchSource);
+        } catch (err) {
+            // TODO log it .. and rethrow to the controller
+            throw `Error DB connection: ${err.message} `;
         }
-        return Object.assign(itemTarget, patchSource);
     }
 
     async deleteItemById(id) {
@@ -55,8 +70,8 @@ class NotesService {
             this.items = await this.items.filter((item) => item.id !== id);
             return deletedItem;
         } catch(err) {
-            // TODO log it
-            throw 'Error DB connection';
+            // TODO log it .. and rethrow to the controller
+            throw `Error DB connection.\n ${err.message} `;
         }
     }
 
