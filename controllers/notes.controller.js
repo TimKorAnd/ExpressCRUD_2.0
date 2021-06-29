@@ -75,13 +75,13 @@ class NotesController {
                 return;
             }
             if (Array.isArray(note) && note.every(value => value instanceof Error)) {
-                const errorMsgs = note.map(err => ({
-                    "mesage": "Oops! The value is invalid",
+                const errorsMessages = note.map(err => ({
+                    "message": "Oops! The value is invalid",
                     "field": err.message
                 }));
                 res.status(400).json({
                     "message": NotesController.responseMessages.errors[400],
-                    "errors":errorMsgs});
+                    "errors":errorsMessages});
                 return;
             }
             res.status(200).json(note);
