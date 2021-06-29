@@ -6,6 +6,7 @@ class NotesService {
     constructor(data) {
         this.items = data;
     }
+
 // TODO validation fields & values necessary
     async createItem(item) {
         try {
@@ -28,7 +29,7 @@ class NotesService {
 
     async getItemById(id) {
         try {
-            const item =  await this.items.find(item => item.id === id);
+            const item = await this.items.find(item => item.id === id);
             if (!item) {
                 return new Error(`Item id = ${id} not found`);
             }
@@ -38,6 +39,7 @@ class NotesService {
             throw `Error DB connection: cant read data.\n ${err.message} `;
         }
     }
+
 // todo validation & forbide patch _id_ or some else protected fields
     async updateItemById(id, patchSource) {
         try {
@@ -69,7 +71,7 @@ class NotesService {
             }
             this.items = await this.items.filter((item) => item.id !== id);
             return deletedItem;
-        } catch(err) {
+        } catch (err) {
             // TODO log it .. and rethrow to the controller
             throw `Error DB connection.\n ${err.message} `;
         }

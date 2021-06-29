@@ -6,13 +6,13 @@ class NotesController {
 
     static responseMessages = {
         errors: {
-           400: "Validation errors in your request",
-           404: "The item does not exist",
+            400: "Validation errors in your request",
+            404: "The item does not exist",
         },
-       success: {
-           200: "Ok",
-           201: "The item was created successfully",
-       }
+        success: {
+            200: "Ok",
+            201: "The item was created successfully",
+        }
     }
 
     constructor(modelService) {
@@ -81,7 +81,8 @@ class NotesController {
                 }));
                 res.status(400).json({
                     "message": NotesController.responseMessages.errors[400],
-                    "errors":errorsMessages});
+                    "errors": errorsMessages
+                });
                 return;
             }
             res.status(200).json(note);
