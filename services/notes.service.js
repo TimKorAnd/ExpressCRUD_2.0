@@ -1,16 +1,16 @@
 'use strict';
 
-const modelData = require('../models/notes.model');
+const notesModel = require('../models/notes.model');
 
 class NotesService {
-    constructor(data) {
-        this.items = data;
+    constructor(model) {
+        this.model = model;
     }
 
 // TODO validation fields & values necessary
     async createItem(item) {
         try {
-            await this.items.push(item);
+            await this.model.create(item);
             return item;
         } catch (err) {
             // TODO log it in controller
@@ -20,7 +20,7 @@ class NotesService {
 
     async getAllItems() {
         try {
-            return await this.items; // await for db. try catch for db
+            return await this.model.find(); // await for db. try catch for db
         } catch (err) {
             // TODO log it .. and rethrow to the controller
             throw `Error DB connection: cant read data.\n ${err.message} `;
@@ -29,7 +29,7 @@ class NotesService {
 
     async getItemById(id) {
         try {
-            const item = await this.items.find(item => item.id === id);
+            const item = await this.model.findOne({id: id}).exec();
             if (!item) {
                 return new Error(`Item id = ${id} not found`);
             }
@@ -49,14 +49,14 @@ class NotesService {
             }
             const errors = [];
             Object.keys(patchSource).forEach((patchKey) => {
-                if (!itemTarget.hasOwnProperty(patchKey)) {
+                if (!(patchKey in itemTarget)) {
                     errors.push(new Error(`${patchKey}`));
                 }
             })
             if (errors.length > 0) {
                 return errors;
             }
-            return Object.assign(itemTarget, patchSource);
+            return await this.model.updateOne({id: id}, patchSource);
         } catch (err) {
             // TODO log it .. and rethrow to the controller
             throw `Error DB connection: ${err.message} `;
@@ -69,7 +69,7 @@ class NotesService {
             if (!deletedItem) {
                 return new Error(`Item id = ${id} not found`);
             }
-            this.items = await this.items.filter((item) => item.id !== id);
+            this.model = await this.model.filter((item) => item.id !== id);
             return deletedItem;
         } catch (err) {
             // TODO log it .. and rethrow to the controller
@@ -79,4 +79,4 @@ class NotesService {
 
 }
 
-module.exports = new NotesService(modelData);
+module.exports = new NotesService(notesModel);

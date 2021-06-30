@@ -1,5 +1,6 @@
 'use strict';
 
+const mongoose = require('./mongoConnect');
 const express = require('express');
 const app = express();
 
