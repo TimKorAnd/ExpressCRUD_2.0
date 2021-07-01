@@ -1,3 +1,5 @@
+'use strict';
+
 const config = {
     mongoConfig: {
         project: 'mongoExpressCRUD_2.0',

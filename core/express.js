@@ -1,6 +1,6 @@
 'use strict';
 
-const mongoose = require('./mongoConnect');
+//const mongooseConnect = require('./mongoConnect');
 const express = require('express');
 const app = express();
 
@@ -12,4 +12,6 @@ app.use(bodyParser.json())
 
 app.use(router);
 
-module.exports = app;
+ module.exports = app;
+/*exports.app = app;
+exports.mongooseConnect = mongooseConnect;*/

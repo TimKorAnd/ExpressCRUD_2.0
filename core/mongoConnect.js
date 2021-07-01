@@ -1,23 +1,19 @@
+'use strict';
+
 const mongoose = require('mongoose');
-const { mongoConfig } = require('./config')
+const {mongoConfig} = require('./config');
 
 
-mongoose.connect(mongoConfig.connectionString, mongoConfig.connectionParams)
+exports.connect = () => mongoose.connect(mongoConfig.connectionString, mongoConfig.connectionParams)
     .then(() => {
-        console.log(`MongoDB: ${mongoConfig.db} connected successfully`);
+        console.log(`${Date()}\n...MongoDB: ${mongoConfig.db} connected successfully.\n`);
 
     })
     .catch((err) => {
-        console.log(err);
+        console.log(`${Date()}\n...Error MongoDB: ${mongoConfig.db} connected:\n${err}`);
     });
 
-/*const db = mongoose.connection;
-db.on('error', console.error.bind(console, `MongoDB: ${mongoConfig.db} connection error`));
-db.once('open', () => {
-    console.log(`MongoDB: ${mongoConfig.db} connected successfully`);
-});*/
-
-module.exports = mongoose;
+//module.exports = mongoose;
 
 
 

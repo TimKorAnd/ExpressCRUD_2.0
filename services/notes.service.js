@@ -14,13 +14,13 @@ class NotesService {
             return item;
         } catch (err) {
             // TODO log it in controller
-            throw 'Error DB connection: cant write data';
+            throw `Error DB connection: cant write data.\n ${err.message}`;
         }
     }
 
     async getAllItems() {
         try {
-            return await this.model.find(); // await for db. try catch for db
+            return await this.model.find().exec();
         } catch (err) {
             // TODO log it .. and rethrow to the controller
             throw `Error DB connection: cant read data.\n ${err.message} `;
@@ -56,10 +56,10 @@ class NotesService {
             if (errors.length > 0) {
                 return errors;
             }
-            return await this.model.updateOne({id: id}, patchSource);
+            return await this.model.findOneAndUpdate({id: id}, patchSource, {new: true});
         } catch (err) {
             // TODO log it .. and rethrow to the controller
-            throw `Error DB connection: ${err.message} `;
+            throw `Error DB IO: ${err.message} `;
         }
     }
 
@@ -69,11 +69,11 @@ class NotesService {
             if (!deletedItem) {
                 return new Error(`Item id = ${id} not found`);
             }
-            this.model = await this.model.filter((item) => item.id !== id);
+            await this.model.deleteOne({id});
             return deletedItem;
         } catch (err) {
             // TODO log it .. and rethrow to the controller
-            throw `Error DB connection.\n ${err.message} `;
+            throw `Error DB IO.\n ${err.message} `;
         }
     }
 
