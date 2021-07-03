@@ -2,8 +2,8 @@
 
 const PORT = process.env.port || 3000;
 const PID = process.pid;
-const app = require('./core/express');
-const mongooseConnect = require('./core/mongoConnect');
+const { app, mongooseConnect } = require('./core/core.js');
+
 
 (async () => {
     try {

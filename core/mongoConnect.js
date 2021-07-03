@@ -13,7 +13,6 @@ exports.connect = () => mongoose.connect(mongoConfig.connectionString, mongoConf
         console.log(`${Date()}\n...Error MongoDB: ${mongoConfig.db} connected:\n${err}`);
     });
 
-//module.exports = mongoose;
 
 
 
