@@ -1,13 +1,8 @@
 Питання:
 розподілення відповідальностей між сервісом та контроллером,
 
-норм писати щось в об'єкт req ? (для подальшої його передачі по хендлерах)
-
 можливо варто повертати з сервіса моделі об'єкт, що буде містити повідомлення, помилки, або отриманий
 з моделі ресурс, бо інакше мій сервіс повертає дані різних типів.
-
-https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/flow_control_using_async
-async викоростовується? Бо схожкий функціонал має Promise.all ?
 
 як зробити щоб дія з одного модуля чекала на виконання дії з другого?
 
@@ -25,8 +20,9 @@ lean - ?
 + декомпозиція (що таке core)
 +- створення сервісу
 + підключення до БД - create new branch!
-@ merge dev to main via pr
-- додати в базу таймстамп
++ merge dev to main
+  додати в базу таймстамп
+  create global app errorHandler? remove try/catch from controller
 
 
 TODO for NODE projects

@@ -5,7 +5,7 @@ const { Schema, model } = require('mongoose')
 
 
 //const notesSchema = new mongoose.Schema({
-const notesSchema = new Schema({
+const noteSchema = new Schema({
     id: {type: Number},
     content: {type: String, unique: false, required: true},
     dates: [{type: Date}],
@@ -14,5 +14,5 @@ const notesSchema = new Schema({
     category: {type: String}, // TODO ref to collection of category : “Task”, “Random Thought”, “Idea”. {type: String, ref: 'Role'}
 })
 
-module.exports = model('Notes', notesSchema)
+module.exports = model('Notes', noteSchema)
 
