@@ -1,5 +1,5 @@
 'use strict';
-
+const errorHandler = require('../helpers/errorHandler');
 
 class Controller {
     // TODO remove to external cfg file
@@ -30,9 +30,11 @@ class Controller {
         } catch (err) {
             // it is necessary to log the error
             console.dir(err);
-            if (RegExp(/E11000 duplicate key error collection/, 'gi').test(err.message)) {
-                res.status(400).json({ "message": "duplicate field","error": err.keyValue}); // if two field is unique?
-            }
+            /*if (RegExp(/E11000 duplicate key error collection/, 'gi').test(err.message)) {
+                res.status(400).json({ "message": "duplicate field","error": err.keyValue}); // TODO remove to errorHandler if two field is unique?
+            }*/
+            errorHandler(err, res);
+
         }
     }
 

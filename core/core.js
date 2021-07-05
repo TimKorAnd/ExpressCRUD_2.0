@@ -6,6 +6,7 @@
 
 const mongooseConnect = require('./mongoConnect');
 const {getValidationErrors} = require('../helpers/validationErrorsHandler');
+/*const errorHandler = require('../helpers/errorHandler');*/
 //const { validate } = require('express-validation'); // TODO #1 dont work (((
 const app = require('./express');
 
@@ -14,4 +15,5 @@ app.use(getValidationErrors);
 
 exports.app = app;
 exports.mongooseConnect = mongooseConnect;
+/*exports.errorHandler = errorHandler;*/
 // exports.validate = validate; // TODO #1 dont work (((
