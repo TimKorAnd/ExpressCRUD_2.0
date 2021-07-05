@@ -1,11 +1,10 @@
-'use strict';
-
 const express = require('express');
-const router = express.Router();
-const notesController = require('../controllers/notes.controller');
-const notesValidator = require('../validation/notes.validation')
-//const { validate } = require('../core/core'); // TODO #1 dont work (((
 const { validate } = require('express-validation');
+const notesController = require('../controllers/notes.controller');
+const notesValidator = require('../validation/notes.validation');
+
+const router = express.Router();
+// const { validate } = require('../core/core'); // TODO #1 dont work (((
 
 /* route prefix: /notes  */
 router.post('/create', validate(notesValidator.create, {}, { abortEarly: false }), notesController.createNote.bind(notesController));

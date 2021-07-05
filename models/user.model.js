@@ -1,15 +1,26 @@
 'use strict';
 
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema({
-    name: String,
-    email: String,
-    password: String,
+    name: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
     roomId: {
-        ref: 'Room',
-        type: Schema.Types.ObjectId
+        ref: 'rooms',
+        type: Schema.Types.ObjectId,
+        default: null
     },
 })
 
-module.exports = model('User', userSchema)
+module.exports = model('User', userSchema, "users");

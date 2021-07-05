@@ -4,7 +4,6 @@ const PORT = process.env.port || 3000;
 const PID = process.pid;
 const { app, mongooseConnect } = require('./core/core.js');
 
-
 (async () => {
     try {
         await mongooseConnect.connect();

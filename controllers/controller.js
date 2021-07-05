@@ -2,7 +2,7 @@
 
 
 class Controller {
-
+    // TODO remove to external cfg file
     static responseMessages = {
         errors: {
             400: "Validation errors in your request",
@@ -12,99 +12,107 @@ class Controller {
             200: "Ok",
             201: "The item was created successfully",
         }
-    }
+    };
 
     constructor(service) {
         this.service = service;
     }
 
+    test() {
+            console.log(this.service);
+    }
+
     async createItem(req, res, next) {
         try {
-            const itemForCreate = req.body; // need validate
+            const itemForCreate = req.body;
             const itemCreated = await this.service.createDocument(itemForCreate);
-            // compare two items? What for?
-            req.params.id = itemCreated.id;
-            await this.getNoteById(req, res, next, 201);
+            return res.status(201).json({"messages": Controller.responseMessages.success[201]});
         } catch (err) {
             // it is necessary to log the error
-            res.status(500).end();
+            console.dir(err);
+            if (RegExp(/E11000 duplicate key error collection/, 'gi').test(err.message)) {
+                res.status(400).json({ "message": "duplicate field","error": err.keyValue}); // if two field is unique?
+            }
         }
     }
 
     async getAllItems(req, res, next) {
         try {
-            const notes = await this.service.getAllDocuments();
-            if (!notes || notes.length === 0) {
-                res.status(404).json({"message": NotesController.responseMessages.errors[404]});
-                return; // is redundant?
+            const items = await this.service.getAllDocuments();
+            if (!items || items.length === 0) {
+                return res.status(404).json({"message": Controller.responseMessages.errors[404]});
             }
-            res.status(200).json(notes);
+            res.status(200).json(items);
         } catch (err) {
             // it is necessary to log the error
-            res.status(500).end();
+            return res.status(500).end();
         }
     }
 
-   /* async getNoteById(req, res, next, statusSuccess = 200) {
+    async getItemById(req, res, next) {
         try {
-            const id = +req.params.id;
-            const item = await this.service.getItemById(id)
+            const id = req.params.id;
+            const item = await this.service.getDocumentById(id)
             if (item instanceof Error) {
-                res.status(404).json({"messages": NotesController.responseMessages.errors[404]});
-                return;
+                return res.status(404).json({"messages": Controller.responseMessages.errors[404]});
             }
-            if (statusSuccess === 201) {
-                res.status(statusSuccess).json({"messages": NotesController.responseMessages.success[statusSuccess]});
-                return;
-            }
-            res.status(statusSuccess).json(item);
+            return res.status(200).json(item);
         } catch (err) {
             // it is necessary to log the error
-            res.status(500).end();
+            return res.status(500).end();
         }
     }
 
-    async updateNoteById(req, res, next) {
+    async updateItemById(req, res, next) {
         try {
-            const id = +req.params.id;
+            const id = req.params.id;
             const patchSource = req.body;
-            const note = await this.service.updateItemById(id, patchSource);
-            if (note instanceof Error) {
-                res.status(404).json({"messages": NotesController.responseMessages.errors[404]});
-                return;
-            }
-            if (Array.isArray(note) && note.every(value => value instanceof Error)) {
-                const errorsMessages = note.map(err => ({
+
+            // TODO validation fields names only (wo types) remove to userController
+            const errors = [];
+            const itemTarget = await this.service.getDocumentById(id);
+            Object.keys(patchSource).forEach((patchKey) => {
+                if (!(patchKey in itemTarget)) {
+                    errors.push(new Error(`${patchKey}`));
+                }
+            })
+            if (errors.length > 0) {
+                const errorsMessages = errors.map(err => ({
                     "message": "Oops! The value is invalid",
                     "field": err.message
                 }));
-                res.status(400).json({
-                    "message": NotesController.responseMessages.errors[400],
+                return res.status(400).json({
+                    "message": Controller.responseMessages.errors[400],
                     "errors": errorsMessages
                 });
-                return;
             }
-            res.status(200).json(note);
+            // TODO validation fields names only (wo types)
+
+            const item = await this.service.updateDocumentById(id, patchSource);
+            if (item instanceof Error) {
+                return res.status(404).json({"messages": Controller.responseMessages.errors[404]});
+            }
+
+            return res.status(200).json(item);
         } catch (err) {
             // it is necessary to log the error
-            res.status(500).end();
+            return res.status(500).end();
         }
     }
 
-    async deleteNoteById(req, res, next) {
+    async deleteItemById(req, res, next) {
         try {
-            const id = +req.params.id;
-            const deletedNotes = await this.service.deleteItemById(id);
+            const id = req.params.id;
+            const deletedNotes = await this.service.deleteDocumentById(id);
             if (deletedNotes instanceof Error) {
-                res.status(404).json({"messages": NotesController.responseMessages.errors[404]});
-                return;
+                return res.status(404).json({"messages": Controller.responseMessages.errors[404]});
             }
-            res.status(204).end();
+            return res.status(204).end();
         } catch (err) {
             // it is necessary to log the error
-            res.status(500).end();
+            return res.status(500).end();
         }
-    }*/
+    }
 
 }
 
