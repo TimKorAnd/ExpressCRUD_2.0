@@ -1,6 +1,24 @@
 'use strict';
 
 const Controller = require('./controller');
-const service = require('../services/message.services');
+const messageService = require('../services/message.service');
 
-module.exports = new Controller(service);
+class MessageController extends Controller {
+    constructor(messageService) {
+        super(messageService);
+    }
+
+    async getMessagesByUser(req, res, next) {
+        try {
+            const userId = req.params.id;
+            const items = await this.service.getAllDocumentsByField({ownerId: userId.toObjectId()});
+
+            res.status(200).json(items);
+        } catch (err) {
+            this.errorHandler(err, res);
+        }
+    }
+
+}
+
+module.exports = new MessageController(messageService);

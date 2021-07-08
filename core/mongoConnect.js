@@ -3,6 +3,9 @@
 const mongoose = require('mongoose');
 const {mongoConfig} = require('./config');
 
+String.prototype.toObjectId = function() {
+    return mongoose.Types.ObjectId(this);
+};
 
 exports.connect = () => mongoose.connect(mongoConfig.connectionString, mongoConfig.connectionParams)
     .then(() => {

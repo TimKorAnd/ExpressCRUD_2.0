@@ -8,5 +8,10 @@ module.exports = {
             roomId: Joi.string().required(),
             text: Joi.string().max(messageMaxLength).required(),
         })
+    },
+    patch: {
+        body: Joi.object({
+            text: Joi.string().max(messageMaxLength).required(),
+        })
     }
 };

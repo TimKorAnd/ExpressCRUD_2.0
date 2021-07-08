@@ -12,6 +12,7 @@ router.post('/', validate(messageValidator.create, {}, { abortEarly: false }),
 
 router.get('/', messageController.getAllItems.bind(messageController));
 router.get('/:id', messageController.getItemById.bind(messageController));
+router.get('/:id/user', messageController.getMessagesByUser.bind(messageController));
 
 router.patch('/:id', messageController.updateItemById.bind(messageController));
 

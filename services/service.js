@@ -6,25 +6,35 @@ class Service {
         this.model = model;
     }
 
-    async createDocument(item) {
+    createDocument(item) {
         return this.model.create(item);
     }
 
-    async getAllDocuments() {
+    getAllDocuments() {
         return this.model.find().lean().exec();
     }
 
-    async getDocumentById(_id) {
+    getAllDocumentsByField(field) {
+        console.log(field)
+        return this.model.find(field).lean().exec();
+    }
+
+    getDocumentById(_id) {
+        _id = (typeof _id) === 'string' ? _id.toObjectId() : _id;
         return this.model.findOne({_id}).lean().exec();
     }
 
-    async updateDocumentById(_id, patchSource) {
-        return this.model.findOneAndUpdate({_id}, {$set: patchSource}, {new: true});
+    updateDocumentById(_id, patchSource, paramReturn = {new: true} ) {
+        _id = (typeof _id) === 'string' ? _id.toObjectId() : _id;
+        return this.model.findOneAndUpdate({_id}, {$set: patchSource}, paramReturn).lean().exec();
     }
 
-    async deleteDocumentById(_id) {
-        return this.model.deleteOne({_id});
+    deleteDocumentById(_id) {
+        _id = (typeof _id) === 'string' ? _id.toObjectId() : _id;
+        return this.model.deleteOne({_id}).lean().exec();
     }
+
+
 
 }
 
