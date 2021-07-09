@@ -6,6 +6,18 @@ class MessageController extends Controller {
         super(messageService);
     }
 
+    async getItemById(req, res, next) {
+        const populateParams = [{ path: 'roomId', model: this.service.roomModel },
+            { path: 'ownerId', model: this.service.userModel }];
+        super.getItemById(req, res, next, populateParams);
+    }
+
+    async getAllItems(req, res, next) {
+        const populateParams = [{ path: 'roomId', model: this.service.roomModel },
+            { path: 'ownerId', model: this.service.userModel }];
+        super.getAllItems(req, res, next, populateParams);
+    }
+
     async getMessagesByUser(req, res, next) {
         try {
             const userId = req.params.id;
