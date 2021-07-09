@@ -20,7 +20,8 @@ class RoomController extends Controller {
     async getAllRoomsByUserOwner(req, res, next) {
         try {
             const ownerId = req.params.id;
-            const items = (await this.service.getAllDocumentsByField({ ownerId }));
+            const items = await this.service
+                .getAllDocumentsByField({ ownerId }, { path: 'usersId', model: this.service.userModel });
 
             res.status(200).json(items);
         } catch (err) {

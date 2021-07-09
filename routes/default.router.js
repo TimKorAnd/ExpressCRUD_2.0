@@ -1,10 +1,7 @@
-'use strict';
-
 const express = require('express');
-const router = express.Router();
-
 const defaultController = require('../controllers/default.controller');
 
+const router = express.Router();
 router.use('/', defaultController);
 
 module.exports = router;

@@ -7,9 +7,10 @@ const userRouter = require('./user.router');
 const roomRouter = require('./room.router');
 const messageRouter = require('./message.router');
 
-router.use('/api/v1/users', userRouter);
-router.use('/api/v1/rooms', roomRouter);
-router.use('/api/v1/messages', messageRouter);
-router.use('/', defaultRouter);
+router.use(`${process.env.ROUTE_PREFIX_PROD}users`, userRouter);
+router.use(`${process.env.ROUTE_PREFIX_PROD}rooms`, roomRouter);
+router.use(`${process.env.ROUTE_PREFIX_PROD}messages`, messageRouter);
+
+router.use(`${process.env.ROUTE_PREFIX_PROD}`, defaultRouter);
 
 module.exports = router;

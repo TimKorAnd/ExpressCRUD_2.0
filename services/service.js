@@ -11,9 +11,8 @@ class Service {
         return this.model.find().lean().exec();
     }
 
-    getAllDocumentsByField(field) {
-        console.log(field);
-        return this.model.find(field).lean().exec();
+    getAllDocumentsByField(field, ...populateParams) {
+        return this.model.find(field).populate(...populateParams).lean().exec();
     }
 
     getDocumentById(_id) {

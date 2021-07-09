@@ -11,8 +11,8 @@ router.post('/', validate(roomValidator.create, {}, { abortEarly: false }),
 
 router.get('/', roomController.getAllItems.bind(roomController));
 router.get('/:id', roomController.getItemById.bind(roomController));
-router.get('/:id/users', roomController.getAllUsersByRoom.bind(roomController));
-router.get('/:id/byowner', roomController.getAllRoomsByUserOwner.bind(roomController));
+router.get('/:id/users', roomController.getAllUsersByRoom.bind(roomController)); // maybe replace into userController
+router.get('/byowner/:id', roomController.getAllRoomsByUserOwner.bind(roomController));
 
 router.patch('/:id', roomController.updateItemById.bind(roomController));
 

@@ -20,12 +20,6 @@ class Controller {
         this.errorHandler = errorHandler;
     }
 
-    test() {
-            console.log(this.service);
-    }
-
-
-
     async createItem(req, res, next) {
         try {
             const itemForCreate = req.body;

@@ -12,6 +12,7 @@
     },
     "rules": {
         // Indent with 4 spaces
-        "indent": ["error", 4]
+        "indent": ["error", 4],
+         "max-len": ["error", { "code": 120 }]
     }
 }
