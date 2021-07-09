@@ -1,13 +1,9 @@
-'use strict';
-
 const Controller = require('./controller');
 const roomService = require('../services/room.service');
-const UserModel = require('../models/room.model');
 
 class RoomController extends Controller {
-
-    constructor(roomService) {
-        super(roomService);
+    constructor(service) {
+        super(service);
     }
 
     async getAllUsersByRoom(req, res, next) {
@@ -21,7 +17,16 @@ class RoomController extends Controller {
         }
     }
 
+    async getAllRoomsByUserOwner(req, res, next) {
+        try {
+            const ownerId = req.params.id;
+            const items = (await this.service.getAllDocumentsByField({ ownerId }));
 
+            res.status(200).json(items);
+        } catch (err) {
+            this.errorHandler(err, res);
+        }
+    }
 }
 
 module.exports = new RoomController(roomService);

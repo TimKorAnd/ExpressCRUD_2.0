@@ -11,5 +11,7 @@
         "ecmaVersion": 12
     },
     "rules": {
+        // Indent with 4 spaces
+        "indent": ["error", 4]
     }
 }

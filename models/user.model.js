@@ -1,5 +1,3 @@
-'use strict';
-
 const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema({
@@ -10,17 +8,25 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     password: {
         type: String,
-        required: true
+        required: true,
+    },
+    avatarUrl: {
+        type: String,
+        default: null,
     },
     roomId: {
         ref: 'rooms',
         type: Schema.Types.ObjectId,
-        default: null
+        default: null,
     },
-})
+}, {
+    versionKey: false,
+    timestamps: true,
+    collection: 'users',
+});
 
-module.exports = model('User', userSchema, "users");
+module.exports = model('User', userSchema, 'users');
