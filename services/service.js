@@ -7,8 +7,8 @@ class Service {
         return this.model.create(item);
     }
 
-    getAllDocuments() {
-        return this.model.find().lean().exec();
+    getAllDocuments(...populateParams) {
+        return this.model.find().populate(...populateParams).lean().exec();
     }
 
     getAllDocumentsByField(field, ...populateParams) {

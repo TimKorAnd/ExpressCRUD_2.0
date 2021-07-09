@@ -32,9 +32,9 @@ class Controller {
         }
     }
 
-    async getAllItems(req, res, next) {
+    async getAllItems(req, res, next, ...populateParams) {
         try {
-            const items = await this.service.getAllDocuments();
+            const items = await this.service.getAllDocuments(...populateParams);
             res.status(200).json(items);
         } catch (err) {
             this.errorHandler(err, res);
