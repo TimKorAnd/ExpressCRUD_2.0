@@ -8,6 +8,11 @@ class UserController extends Controller {
         this.roomService = roomService; // service VS other f.e. roomService.. not good
     }
 
+    async getItemById(req, res, next) {
+        const populateParams = { path: 'roomId', model: this.service.roomModel };
+        super.getItemById(req, res, next, populateParams);
+    }
+
     async getAllItems(req, res, next) {
         const populateParams = { path: 'roomId', model: this.service.roomModel };
         super.getAllItems(req, res, next, populateParams);

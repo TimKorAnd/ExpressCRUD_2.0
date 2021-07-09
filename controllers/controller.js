@@ -41,10 +41,10 @@ class Controller {
         }
     }
 
-    async getItemById(req, res, next) {
+    async getItemById(req, res, next, ...populateParams) {
         try {
             const id = req.params.id;
-            const item = await this.service.getDocumentById(id);
+            const item = await this.service.getDocumentById(id, ...populateParams);
 
             res.status(200).json(item);
         } catch (err) {

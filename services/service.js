@@ -15,9 +15,9 @@ class Service {
         return this.model.find(field).populate(...populateParams).lean().exec();
     }
 
-    getDocumentById(_id) {
+    getDocumentById(_id, ...populateParams) {
         _id = (typeof _id) === 'string' ? _id.toObjectId() : _id;
-        return this.model.findOne({ _id }).lean().exec();
+        return this.model.findOne({ _id }).populate(...populateParams).lean().exec();
     }
 
     updateDocumentById(_id, patchSource, paramReturn = { new: true }) {

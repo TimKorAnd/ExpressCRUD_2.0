@@ -6,6 +6,18 @@ class RoomController extends Controller {
         super(service);
     }
 
+    async getItemById(req, res, next) {
+        const populateParams = [{ path: 'usersId', model: this.service.userModel },
+            { path: 'ownerId', model: this.service.userModel }];
+        super.getItemById(req, res, next, populateParams);
+    }
+
+    async getAllItems(req, res, next) {
+        const populateParams = [{ path: 'usersId', model: this.service.userModel },
+            { path: 'ownerId', model: this.service.userModel }];
+        super.getAllItems(req, res, next, populateParams);
+    }
+
     async getAllUsersByRoom(req, res, next) {
         try {
             const roomId = req.params.id;
